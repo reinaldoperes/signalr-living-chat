@@ -8,4 +8,4 @@
 
 > Open 1+ browsers with the localhost after start the project
 
-> Move the square and have fun!
+> Take a conversation in real time!
