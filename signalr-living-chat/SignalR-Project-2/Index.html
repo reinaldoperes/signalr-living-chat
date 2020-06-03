@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <script src="Scripts/jquery-1.6.4.js"></script>
+    <script src="Scripts/jquery.signalR-2.1.2.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            var connection = $.connection("/echo");
+
+            connection.start().done(function () {
+                console.log("Connected");
+                $("#messageTextBox").focus();
+                $("#sendButton").click(function () {
+                    if (document.getElementById("messageTextBox").value.length != 0) {
+                        connection.send($("#messageTextBox").val());
+                        $("#messageTextBox").val("").focus();
+                        $("#chatWindow").scrollTop($("#chatWindow")[0].scrollHeight);
+                    } 
+                });
+                $(document).keypress(function (e) {
+                    if (e.which == 13) $('#sendButton').click();
+                });
+            });
+
+            connection.received(function (data) {
+                $("#chatWindow").val($("#chatWindow").val() + data + "\n");
+            });
+        });
+    </script>
+</head>
+<body>
+
+    <textarea id="chatWindow" style="width:800px; height:200px; outline:none" readonly="readonly"></textarea>
+    <div>
+        <label>Mensagens</label>
+        <input id="messageTextBox" type="text"/>
+        <button id="sendButton">enviar</button>
+    </div>
+
+</body>
+</html>
